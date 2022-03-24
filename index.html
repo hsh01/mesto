@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Места</title>
+    <link rel="stylesheet" href="./pages/index.css">
+</head>
+
+<body class="page">
+    <header class="header">
+        <div class="header__logo"></div>
+    </header>
+    <main class="content">
+        <section class="profile">
+            <img class="profile__avatar" src="./images/Kusto.jpg" alt="Жак-Ив Кусто" />
+            <div class="profile__info">
+                <div class="profile__line">
+                    <h1 class="profile__title">Жак-Ив Кусто</h1>
+                    <button class="profile__edit-button"></button></div>
+                <p class="profile__subtitle">Исследователь океана</p>
+            </div>
+            <button class="profile__add-button"></button>
+        </section>
+        <section class="places">
+            <div class="place">
+                <img class="place__image" src="./images/kirill-pershin-1088404-unsplash.png" alt="Карачаевск">
+                <div class="place__list">
+                    <h2 class="place__title">Карачаевск</h2>
+                    <button class="place__like"></button>
+                </div>
+            </div>
+            <div class="place">
+                <img class="place__image" src="./images/kirill-pershin-1404681-unsplash.png" alt="Гора Эльбрус">
+                <div class="place__list">
+                    <h2 class="place__title">Гора Эльбрус</h2>
+                    <button class="place__like"></button>
+                </div>
+            </div>
+            <div class="place">
+                <img class="place__image" src="./images/kirill-pershin-1556355-unsplash.png" alt="Домбай">
+                <div class="place__list">
+                    <h2 class="place__title">Домбай</h2>
+                    <button class="place__like"></button>
+                </div>
+            </div>
+            <div class="place">
+                <img class="place__image" src="./images/kirill-pershin-1404681-unsplash.png" alt="Гора Эльбрус">
+                <div class="place__list">
+                    <h2 class="place__title">Гора Эльбрус</h2>
+                    <button class="place__like"></button>
+                </div>
+            </div>
+            <div class="place">
+                <img class="place__image" src="./images/kirill-pershin-1556355-unsplash.png" alt="Домбай">
+                <div class="place__list">
+                    <h2 class="place__title">Домбай</h2>
+                    <button class="place__like"></button>
+                </div>
+            </div>
+            <div class="place">
+                <img class="place__image" src="./images/kirill-pershin-1088404-unsplash.png" alt="Карачаевск">
+                <div class="place__list">
+                    <h2 class="place__title">Карачаевск</h2>
+                    <button class="place__like"></button>
+                </div>
+            </div>
+        </section>
+        <div class="form hidden">
+            <span class="form__close"></span>
+            <h3 class="form__text">Редактировать профиль</h3>
+            <div class="input">
+                <input type="text" placeholder="Жак-Ив Кусто" class="input__text input__text_type_name">
+                <input type="text" placeholder="Исследователь океана" class="input__text input__text_type_work">
+                <button class="form__save-btn form__save-btn_action_add">
+                Сохранить
+              </button>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <p class="footer__copyright">&copy;&nbsp; 2020 Mesto Russia</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>

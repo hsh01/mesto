@@ -1,0 +1,10 @@
+.input {
+    padding-top: 24px;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 440px) {
+    .input {
+        padding-top: 45px;
+    }
+}

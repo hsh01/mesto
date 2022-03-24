@@ -1,0 +1,22 @@
+.input__text {
+    width: 358px;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.21;
+    color: #000000;
+    padding-bottom: 13px;
+    padding-top: 30px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid #000000 0.2;
+    margin-left: 36px;
+}
+
+@media screen and (max-width: 440px) {
+    .input__text {
+        margin-left: 22px;
+        width: 238px;
+    }
+}

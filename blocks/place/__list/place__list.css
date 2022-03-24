@@ -1,0 +1,8 @@
+.place__list {
+    background-color: white;
+    border-radius: 0 0 10px 10px;
+    height: 23px;
+    padding: 25px 15px 31px 21px;
+    display: flex;
+    justify-content: space-between;
+}
