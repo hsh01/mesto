@@ -1,5 +1,6 @@
 .form__close {
     background-image: url(../../../images/Close-Icon.svg);
+    background-size: cover;
     width: 32px;
     height: 32px;
     position: absolute;
@@ -8,10 +9,10 @@
 }
 
 @media screen and (max-width: 440px) {
-    .form {
+    .form__close {
         width: 20px;
-        min-height: 20px;
-        top: calc(50% - 197px);
-        right: 19px;
+        height: 20px;
+        right: 0;
+        top: -36px;
     }
 }

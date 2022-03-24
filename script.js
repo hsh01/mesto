@@ -30,11 +30,15 @@ let closeButton = document.querySelector('.form__close');
 let saveButton = document.querySelector('.form__save-btn');
 
 function close() {
-    document.querySelector('.profile__title').textContent = document.querySelector('.input__text_type_name').value
-    document.querySelector('.profile__subtitle').textContent = document.querySelector('.input__text_type_work').value
     form.classList.add('hidden');
     page.classList.remove('overlay');
 }
 
+function save() {
+    document.querySelector('.profile__title').textContent = document.querySelector('.input__text_type_name').value
+    document.querySelector('.profile__subtitle').textContent = document.querySelector('.input__text_type_work').value
+    close();
+}
+
 closeButton.addEventListener('click', close);
-saveButton.addEventListener('click', close);
+saveButton.addEventListener('click', save);
