@@ -6,4 +6,5 @@
     justify-content: space-between;
     box-sizing: border-box;
     width: 282px;
+    align-items: center;
 }

@@ -6,8 +6,6 @@
     position: fixed;
     top: calc((100vh - 370px) / 2);
     left: calc((100vw - 470px) / 2);
-    ;
-    display: flex;
 }
 
 @media screen and (max-width: 440px) {
