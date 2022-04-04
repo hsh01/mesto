@@ -1,6 +1,6 @@
-.input__text {
+.popup__form-input {
     width: 358px;
-    font-family: 'Inter';
+    font-family: 'Inter', Arial, sans-serif;
     font-weight: 400;
     font-size: 14px;
     line-height: 1.21;
@@ -10,13 +10,17 @@
     border-top: none;
     border-left: none;
     border-right: none;
-    border-bottom: 1px solid #000000 0.2;
-    margin-left: 36px;
+    border-bottom: 1px solid #000000;
+    margin: 0;
+}
+
+.popup__form-input:focus {
+    outline: none;
+    border-bottom: 2px solid #000000;
 }
 
 @media screen and (max-width: 440px) {
-    .input__text {
-        margin-left: 22px;
-        width: 238px;
+    .popup__form-input {
+        width: 100%;
     }
 }

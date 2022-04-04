@@ -1,4 +1,4 @@
-.form__text {
+.popup__form-header {
     font-family: 'Inter';
     font-weight: 900;
     font-size: 24px;
@@ -9,7 +9,7 @@
 }
 
 @media screen and (max-width: 440px) {
-    .form__text {
+    .popup__form-header {
         margin: 0 auto;
         padding-top: 25px;
         font-size: 18px;
