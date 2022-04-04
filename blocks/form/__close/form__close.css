@@ -7,16 +7,15 @@
     height: 32px;
     cursor: pointer;
     z-index: 999;
-    position: absolute;
-    top: calc(50vh - 205px);
-    right: calc(50vw - 255px);
+    position: fixed;
+    right: calc(50vw - 260px);
+    top: calc(50vh - 202px);
 }
 
 @media screen and (max-width: 440px) {
     .form__close {
         width: 20px;
         height: 20px;
-        top: calc(50vh - 202px);
         right: 19px;
     }
 }

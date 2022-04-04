@@ -8,15 +8,14 @@
     box-sizing: border-box;
     padding: 0 36px;
     z-index: 999;
-    position:fixed;
+    position: fixed;
     top: calc((100vh - 330px) / 2);
-    left: calc((100vw - 430px) / 2);
+    left: calc((100vw - 450px) / 2);
 }
 
 @media screen and (max-width: 440px) {
     .form {
         max-width: calc(100% - 38px);
-        top: calc((100vh - 322px));
         left: 19px;
         padding: 0 22px;
     }

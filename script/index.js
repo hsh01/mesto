@@ -1,12 +1,3 @@
-//likes
-//let likes = document.querySelectorAll('.place__like');
-
-//for (let i = 0; i < likes.length; i++) {
-//    likes[i].setAttribute('id', 'like-' + (i + 1));
-//    likes[i].addEventListener('click', liked, false);
-//}
-
-//edit
 let editButton = document.querySelector('.profile__edit-button');
 let form = document.querySelector('.pop-up');
 let formName = document.querySelector('.input__text_type_name');
@@ -22,9 +13,7 @@ function formEdit() {
 
 editButton.addEventListener('click', formEdit);
 
-//close
 let closeButton = document.querySelector('.form__close');
-//let saveButton = document.querySelector('.form__save-btn');
 
 function close() {
     form.classList.add('pop-up_hidden');
@@ -37,4 +26,3 @@ function save() {
 }
 
 closeButton.addEventListener('click', close);
-//saveButton.addEventListener('click', save);
