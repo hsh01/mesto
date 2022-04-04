@@ -1,19 +1,23 @@
 .form {
     max-width: 430px;
+    max-height: 330px;
     background-color: white;
     box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
     border-radius: 10px;
-    position: absolute;
-    left: calc(50vw - 215px);
-    top: calc(50vh - 165px);
-    z-index: 2;
     margin: 0 auto;
+    box-sizing: border-box;
+    padding: 0 36px;
+    z-index: 999;
+    position:fixed;
+    top: calc((100vh - 330px) / 2);
+    left: calc((100vw - 430px) / 2);
 }
 
 @media screen and (max-width: 440px) {
     .form {
         max-width: calc(100% - 38px);
-        top: calc(50% - 160px);
+        top: calc((100vh - 322px));
         left: 19px;
+        padding: 0 22px;
     }
 }

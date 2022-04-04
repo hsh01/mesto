@@ -1,7 +1,6 @@
 .profile__subtitle {
     max-width: 336px;
-    height: 18px;
-    font-family: 'Inter';
+    font-family: 'Inter', Arial, sans-serif;
     font-weight: 400;
     font-size: 18px;
     font-size: calc( (100vw - 320px)/(1280 - 320) * (18 - 14) + 14px);
@@ -9,6 +8,10 @@
     padding-top: 16px;
     margin: 0;
     align-items: flex-end;
+    text-overflow: ellipsis;
+    max-width: calc(50vw);
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 @media screen and (max-width: 939px) {

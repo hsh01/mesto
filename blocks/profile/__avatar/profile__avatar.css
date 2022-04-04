@@ -3,4 +3,6 @@
     border-radius: 50%;
     grid-area: avatar;
     margin: 0 auto;
+    object-fit: cover;
+    height: 120px;
 }

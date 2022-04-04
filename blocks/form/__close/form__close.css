@@ -1,18 +1,21 @@
 .form__close {
     background-image: url(../../../images/Close-Icon.svg);
     background-size: cover;
+    background-color: #fff;
     width: 32px;
     height: 32px;
+    cursor: pointer;
+    z-index: 999;
     position: absolute;
-    top: calc(50% - 205px);
-    right: calc(50% - 255px);
+    top: calc(50vh - 205px);
+    right: calc(50vw - 255px);
 }
 
 @media screen and (max-width: 440px) {
     .form__close {
         width: 20px;
         height: 20px;
-        right: 0;
-        top: -36px;
+        top: calc(50vh - 202px);
+        right: 19px;
     }
 }
