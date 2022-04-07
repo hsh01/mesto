@@ -6,6 +6,7 @@
     height: 24px;
     border: 1px solid #FFFFFF;
     background-color: black;
+    cursor: pointer;
 }
 
 .profile__edit-button:hover {

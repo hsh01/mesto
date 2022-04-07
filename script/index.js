@@ -1,20 +1,18 @@
 let editButton = document.querySelector('.profile__edit-button');
-let form = document.querySelector('.popup');
+let popup = document.querySelector('.popup');
 let title = document.querySelector('.profile__title');
 let subtitle = document.querySelector('.profile__subtitle');
+let closeButton = document.querySelector('.popup__close');
+let saveButton = document.querySelector('.popup__close')
 
 function formEdit() {
-    form.classList.remove('hidden');
+    popup.classList.remove('popup_hidden');
     formName.value = title.textContent
     formWork.value = subtitle.textContent
 }
 
-editButton.addEventListener('click', formEdit);
-
-let closeButton = document.querySelector('.popup__close');
-
 function close() {
-    form.classList.add('hidden');
+    popup.classList.add('popup_hidden');
 }
 
 function save() {
@@ -23,4 +21,6 @@ function save() {
     close();
 }
 
+
+editButton.addEventListener('click', formEdit);
 closeButton.addEventListener('click', close);

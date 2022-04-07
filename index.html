@@ -14,15 +14,15 @@
     </header>
     <main class="content">
         <section class="profile">
-            <img class="profile__avatar" src="./images/Kusto.jpg" alt="Жак-Ив Кусто" />
+            <img class="profile__avatar" src="./images/Kusto.jpg" alt="Аватар пользователя" />
             <div class="profile__info">
                 <div class="profile__line">
                     <h1 class="profile__title">Жак-Ив Кусто</h1>
-                    <button class="profile__edit-button" type="submit"></button>
+                    <button class="profile__edit-button" type="button"></button>
                 </div>
                 <p class="profile__subtitle">Исследователь океана</p>
             </div>
-            <button class="profile__add-button" type="submit"></button>
+            <button class="profile__add-button" type="button"></button>
         </section>
         <section class="places">
             <article class="place">
@@ -68,13 +68,14 @@
                 </div>
             </article>
         </section>
-        <div class="popup hidden">
+        <div class="popup popup_hidden">
             <div class="popup__container">
-                <button class="popup__close" type="reset" title="закрыть"></button>
-                <form class="popup__form" name="Редактировать профиль">
+                
+                <form class="popup__form" name="edit-profile-form">
+                    <button class="popup__close" type="button" title="закрыть"></button>
                     <h2 class="popup__form-header">Редактировать профиль</h2>
-                    <input type="text" name="Жак-Ив Кусто" value="Жак-Ив Кусто" class="popup__form-input">
-                    <input type="text" value="Исследователь океана" class="popup__form-input">
+                    <input type="text" name="Jacques-Cousteau" value="Жак-Ив Кусто" class="popup__form-input">
+                    <input type="text" name="Ocean-explorer" value="Исследователь океана" class="popup__form-input">
                     <button class="popup__form-submit" type="submit">
                         Сохранить
                     </button>

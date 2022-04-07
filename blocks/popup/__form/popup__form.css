@@ -13,7 +13,7 @@
     left: calc((100vw - 450px) / 2);
 }
 
-@media screen and (max-width: 440px) {
+@media screen and (max-width: 520px) {
     .popup__form {
         max-width: calc(100% - 38px);
         left: 19px;
