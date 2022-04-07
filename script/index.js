@@ -3,7 +3,7 @@ let popup = document.querySelector('.popup');
 let title = document.querySelector('.profile__title');
 let subtitle = document.querySelector('.profile__subtitle');
 let closeButton = document.querySelector('.popup__close');
-let saveButton = document.querySelector('.popup__close')
+let saveButton = document.querySelector('.popup__form-submit')
 
 function formEdit() {
     popup.classList.remove('popup_hidden');
