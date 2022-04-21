@@ -14,13 +14,15 @@
     </header>
     <main class="content">
         <section class="profile">
-            <img class="profile__avatar" src="./images/Kusto.jpg" alt="Аватар пользователя" />
-            <div class="profile__info">
-                <div class="profile__line">
-                    <h1 class="profile__title">Жак-Ив Кусто</h1>
-                    <button class="profile__edit-button" type="button"></button>
+            <div class="profile__container">
+                <img class="profile__avatar" src="./images/Kusto.jpg" alt="Аватар пользователя" />
+                <div class="profile__info">
+                    <div class="profile__line">
+                        <h1 class="profile__title">Жак-Ив Кусто</h1>
+                        <button class="profile__edit-button" type="button"></button>
+                    </div>
+                    <p class="profile__subtitle">Исследователь океана</p>
                 </div>
-                <p class="profile__subtitle">Исследователь океана</p>
             </div>
             <button class="profile__add-button" type="button"></button>
         </section>
@@ -69,17 +71,15 @@
             </article>
         </section>
         <div class="popup popup_hidden">
-            <div class="popup__container">
-                <form class="popup__form" name="edit-profile-form">
-                    <button class="popup__close" type="button" title="закрыть"></button>
-                    <h2 class="popup__form-header">Редактировать профиль</h2>
-                    <input type="text" name="Jacques-Cousteau" value="Жак-Ив Кусто" class="popup__form-input">
-                    <input type="text" name="Ocean-explorer" value="Исследователь океана" class="popup__form-input">
-                    <button class="popup__form-submit" type="submit">
-                        Сохранить
-                    </button>
-                </form>
-            </div>
+            <form class="popup__container" name="edit-profile-form">
+                <button class="popup__close" type="button" title="закрыть"></button>
+                <h2 class="popup__form-header">Редактировать профиль</h2>
+                <input type="text" name="Jacques-Cousteau" value="Жак-Ив Кусто" class="popup__form-input">
+                <input type="text" name="Ocean-explorer" value="Исследователь океана" class="popup__form-input">
+                <button class="popup__form-submit" type="submit">
+                    Сохранить
+                </button>
+            </form>
         </div>
     </main>
     <footer class="footer">
@@ -87,4 +87,5 @@
     </footer>
     <script src="script/index.js"></script>
 </body>
+
 </html>
