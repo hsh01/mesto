@@ -7,13 +7,9 @@
      height: 33px;
  }
  
- .header__logo:hover {
-     background-image: url(../../../images/logo-hover.svg);
- }
-
  @media screen and (max-width: 767px) {
-    .header__logo {
-        max-width: 32vw;
-        max-height: calc(32vw * 0.23);
-    }
-}
+     .header__logo {
+         max-width: 32vw;
+         max-height: calc(32vw * 0.23);
+     }
+ }

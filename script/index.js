@@ -6,13 +6,13 @@ let closeButton = document.querySelector('.popup__close');
 let saveButton = document.querySelector('.popup__form-submit')
 
 function formEdit() {
-    popup.classList.remove('popup_hidden');
+    popup.classList.add('popup_opened');
     formName.value = title.textContent
     formWork.value = subtitle.textContent
 }
 
 function close() {
-    popup.classList.add('popup_hidden');
+    popup.classList.remove('popup_opened');
 }
 
 function save() {
