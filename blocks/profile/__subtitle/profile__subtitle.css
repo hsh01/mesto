@@ -4,10 +4,16 @@
     font-size: 18px;
     font-size: calc((100vw - 320px) / (1280 - 320) * (18 - 14) + 14px);
     line-height: 1.22;
-    padding-top: 16px;
     margin: 0;
     align-items: flex-end;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    grid-column: 1 / -1;
+}
+
+@media screen and (max-width: 767px) {
+    .profile__subtitle {
+        max-width: 88vw;
+    }
 }

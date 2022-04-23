@@ -7,9 +7,24 @@
     border: 1px solid #FFFFFF;
     background-color: black;
     cursor: pointer;
+    padding: 0;
 }
 
 .profile__edit-button:hover {
     opacity: .6;
     justify-content: flex-start;
+}
+
+@media screen and (max-width: 1023px) {
+    .profile__edit-button {
+        grid-area: btn;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .profile__edit-button {
+        width: 18px;
+        height: 18px;
+        background-size: 7.5px;
+    }
 }

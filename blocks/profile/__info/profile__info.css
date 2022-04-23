@@ -1,17 +1,27 @@
  .profile__info {
-     margin: 0 auto;
+     margin: 0;
      grid-area: info;
+     display: grid;
+     grid-template-columns: 1fr 24px;
+     justify-content: space-between;
+     align-items: baseline;
+     grid-template-rows: auto;
+     gap: 16px;
+     max-width: 560px;
  }
  
  @media screen and (max-width: 1023px) {
      .profile__info {
-         padding-top: 22.25px;
+         padding-top: 26px;
          padding-bottom: 36px;
+         justify-items: center;
+         grid-template-areas: ". name btn";
+         grid-template-columns: 18px 1fr 18px;
      }
  }
  
- @media screen and (max-width: 720px) {
+ @media screen and (max-width: 767px) {
      .profile__info {
-         text-align: center;
+         gap: 10px;
      }
  }
