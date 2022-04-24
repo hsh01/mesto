@@ -2,7 +2,6 @@
     font-family: "Inter", Arial, sans-serif;
     font-weight: 400;
     font-size: 18px;
-    font-size: calc((100vw - 320px) / (1280 - 320) * (18 - 14) + 14px);
     line-height: 1.22;
     margin: 0;
     align-items: flex-end;
@@ -12,8 +11,14 @@
     grid-column: 1 / -1;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 1024px) {
     .profile__subtitle {
-        max-width: 88vw;
+        max-width: 560px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .profile__subtitle {
+        max-width: 282px;
     }
 }

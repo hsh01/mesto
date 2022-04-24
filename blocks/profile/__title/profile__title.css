@@ -2,7 +2,6 @@
     font-family: 'Inter', Arial, sans-serif;
     font-weight: 500;
     font-size: 42px;
-    font-size: calc( (100vw - 320px)/(1280 - 320) * (42 - 27) + 27px);
     line-height: 1.14;
     margin: 0;
     text-overflow: ellipsis;
@@ -10,16 +9,17 @@
     white-space: nowrap;
 }
 
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: 1024px) {
     .profile__title {
         grid-area: name;
+        max-width: 487px;
     }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 768px) {
     .profile__title {
         font-size: 27px;
         line-height: 1.22;
-        max-width: 72vw;
+        max-width: 246px;
     }
 }

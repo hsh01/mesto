@@ -4,9 +4,9 @@
     padding-top: 42px;
 }
 
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: 1024px) {
     .profile__container {
         flex-direction: column;
-        width: calc(100% - 38px);
+        /* width: calc(100% - 38px); */
     }
 }

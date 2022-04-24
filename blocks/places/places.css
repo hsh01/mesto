@@ -6,13 +6,13 @@
     justify-items: center;
 }
 
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: 1024px) {
     .places {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 768px) {
     .places {
         max-width: 88%;
         grid-template-columns: 1fr;
