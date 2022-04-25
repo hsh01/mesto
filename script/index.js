@@ -15,7 +15,6 @@ let jobInput = document.querySelector('.popup__form-input[name=job]');
 
 let placeNameInput = document.querySelector('.popup__form-input_add_place-name[name=place-name]');
 let placeLinkInput = document.querySelector('.popup__form-input_add_place-link[name=place-link]');
-let imgPlace = document.querySelector('.popup__img');
 
 
 let closeButtons = document.querySelectorAll('.popup__close');
@@ -110,3 +109,20 @@ removeButtons.forEach(el => el.addEventListener('click', function(evt) {
     let place = evt.target.parentElement;
     remove_place(place);
 }));
+
+
+
+// 
+
+
+let imgPlace = document.querySelector('.popup__img');
+let titleImgPopup = document.querySelector('.popup__img-title');
+let img = document.querySelector('.place__image');
+
+function fullImg() {
+    openPopup()
+    placeElement.querySelector('.place__title').textContent = titleImgPopup.textContent;
+    placeElement.querySelector('.place__image').src = imgPlace.link;
+}
+
+img.forEach(el => el.addEventListener('click', fullImg));
