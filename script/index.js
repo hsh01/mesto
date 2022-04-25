@@ -10,6 +10,8 @@ let nameInput = document.querySelector('.popup__form-input[name=name]');
 let jobInput = document.querySelector('.popup__form-input[name=job]');
 let placeNameInput = document.querySelector('.popup__form-input_add_place-name[name=place-name]');
 let placeLinkInput = document.querySelector('.popup__form-input_add_place-link[name=place-link]');
+let imgPlace = document.querySelector('.popup__img');
+
 
 function formEdit() {
     popup.classList.add('popup_opened');
