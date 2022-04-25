@@ -22,7 +22,7 @@
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);
 @import url(../blocks/popup/popup.css);
-@import url(../blocks/popup/__place-fullscreen/popup__place-fullscreen.css);
+@import url(../blocks/popup/__place_fullscreen/popup__place_fullscreen.css);
 @import url(../blocks/popup/_opened/popup_opened.css);
 @import url(../blocks/popup/__close/popup__close.css);
 @import url(../blocks/popup/__img/popup__img.css);

@@ -3,7 +3,7 @@ let addButton = document.querySelector('.profile__add-button');
 
 let popupEdit = document.querySelector('#popup__edit-profile');
 let popupAdd = document.querySelector('#popup__add-place');
-let popupFullscreen = document.querySelector('.popup__place-fullscreen');
+let popupFullscreen = document.querySelector('.popup__place_fullscreen');
 
 let title = document.querySelector('.profile__title');
 let subtitle = document.querySelector('.profile__subtitle');
@@ -32,6 +32,7 @@ function formEdit() {
 
 function close(evt) {
     evt.target.parentElement.parentElement.classList.remove('popup_opened');
+    evt.target.parentElement.querySelectorAll('.popup__form-input').forEach((el) => el.value = '')
 }
 
 function formSubmitHandler(evt) {
