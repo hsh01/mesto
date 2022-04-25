@@ -3,9 +3,11 @@
     height: 100vh;
     left: 0;
     top: 0;
-    transition: opacity 5s ease-out;
     background-color: rgba(0, 0, 0, .5);
-    display: none;
     position: fixed;
     margin: auto;
+    opacity: 0;
+    transition: opacity .3s ease-in;
+    visibility: hidden;
+    display: flex;
 }

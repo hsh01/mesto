@@ -3,7 +3,7 @@ let addButton = document.querySelector('.profile__add-button');
 
 let popupEdit = document.querySelector('#popup__edit-profile');
 let popupAdd = document.querySelector('#popup__add-place');
-let popupFullscreen = document.querySelector('#popup__place-fullscreen');
+let popupFullscreen = document.querySelector('.popup__place-fullscreen');
 
 let title = document.querySelector('.profile__title');
 let subtitle = document.querySelector('.profile__subtitle');
@@ -110,11 +110,24 @@ initialCards.reverse().forEach(add_place);
 
 function placeSubmitHandler(evt) {
     evt.preventDefault();
-    add_place({
-        name: placeNameInput.value,
-        link: placeLinkInput.value
-    });
+    if (placeNameInput.value && placeLinkInput.value)
+        add_place({
+            name: placeNameInput.value,
+            link: placeLinkInput.value
+        });
     close(evt);
 }
 
 placeForm.addEventListener('submit', placeSubmitHandler);
+
+let likes = document.querySelectorAll('.place__like');
+
+function liked(event) {
+    let like = document.getElementById(event.target.id);
+    like.classList.toggle('place__like_active');
+}
+
+for (let i = 0; i < likes.length; i++) {
+    likes[i].setAttribute('id', 'like-' + (i + 1));
+    likes[i].addEventListener('click', liked, false);
+}
