@@ -3,7 +3,7 @@ let addButton = document.querySelector('.profile__add-button');
 
 let popupEdit = document.querySelector('#popup__edit-profile');
 let popupAdd = document.querySelector('#popup__add-place');
-let popupFullscreen = document.querySelector('.popup__place_fullscreen');
+let popupFullscreen = document.querySelector('.popup__fullscreen');
 
 let title = document.querySelector('.profile__title');
 let subtitle = document.querySelector('.profile__subtitle');
