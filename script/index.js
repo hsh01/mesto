@@ -4,7 +4,7 @@ let popup = document.querySelector('.popup');
 let popupAdd = document.querySelector('.popup_add_new-place');
 let title = document.querySelector('.profile__title');
 let subtitle = document.querySelector('.profile__subtitle');
-let closeButton = document.querySelector('.popup__close');
+let closeButtons = document.querySelectorAll('.popup__close');
 let formElement = document.querySelector('.popup__form');
 let nameInput = document.querySelector('.popup__form-input[name=name]');
 let jobInput = document.querySelector('.popup__form-input[name=job]');
@@ -22,13 +22,9 @@ function close() {
 }
 
 function formAddEdit() {
-  popupAdd.classList.add('popup_opened');
-  placeNameInput.value = title.textContent;
-  placeLinkInput.value = subtitle.textContent;
-}
-
-function close() {
-  popupAdd.classList.remove('popup_opened');
+    popupAdd.classList.add('popup_opened');
+    placeNameInput.value = title.textContent;
+    placeLinkInput.value = subtitle.textContent;
 }
 
 function formSubmitHandler(evt) {
@@ -40,7 +36,7 @@ function formSubmitHandler(evt) {
 
 editButton.addEventListener('click', formEdit);
 addButton.addEventListener('click', formAddEdit);
-closeButton.addEventListener('click', close);
+closeButtons.forEach(el => el.addEventListener('click', close));
 formElement.addEventListener('submit', formSubmitHandler);
 
 const initialCards = [{
@@ -82,13 +78,10 @@ function add_place(element) {
 
 initialCards.forEach(add_place);
 
-let placeInput = document.querySelector('.popup__form-input[name=name]');
-let placeLinkInput = document.querySelector('.popup__form-input[name=job]');
-
 function PlaceSubmitHandler(evt) {
     evt.preventDefault();
     initialCards.unshift({
-        name: placeInput.value,
+        name: placeNameInput.value,
         link: placeLinkInput.value
     });
     places.replaceChildren();
