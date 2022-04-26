@@ -7,9 +7,9 @@
     border: none;
     cursor: pointer;
     padding: 0;
-    position: relative;
-    top: 40px;
-    left: 243px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
 }
 
 .place__remove:hover {
