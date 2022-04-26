@@ -74,9 +74,9 @@ function profileEditSubmitHandler(event) {
 }
 
 function handleCardImageClick(element) {
-    fullscreenImageElement.src = element.src;
-    fullscreenImageElement.alt = element.alt;
-    fullscreenCaptionElement.textContent = element.alt;
+    fullscreenImageElement.src = element.link;
+    fullscreenImageElement.alt = element.name;
+    fullscreenCaptionElement.textContent = element.name;
     openPopup(imageFullscreenPopup);
 }
 
@@ -84,35 +84,30 @@ function handleCardLikeClick(element) {
     element.classList.toggle('place__like_active');
 }
 
-/**
- * @param {string} name Place name
- * @param {string} link Image link
- */
-function createCard(name, link) {
+function createCard(element) {
     const placeElement = placeTemplate.cloneNode(true);
     const cardImage = placeElement.querySelector('.place__image');
     const cardLike = placeElement.querySelector('.place__like');
-    placeElement.querySelector('.place__title').textContent = name;
-    cardImage.src = link;
-    cardImage.alt = name;
+    placeElement.querySelector('.place__title').textContent = element.name;
+    cardImage.src = element.link;
+    cardImage.alt = element.name;
     const btnRemove = placeElement.querySelector('.place__remove');
     btnRemove.addEventListener('click', (event) => event.target.closest('.place').remove());
-    cardImage.addEventListener('click', () => handleCardImageClick(cardImage));
-    cardLike.addEventListener('click', () => handleCardLikeClick(cardLike));
+    cardImage.addEventListener('click', () => handleCardImageClick(element));
+    cardLike.addEventListener('click', () => handleCardLikeClick(element));
     return placeElement;
 }
 
-/**
- * @param {string} name Place name
- * @param {string} link Image link
- */
-function renderCard(name, link) {
-    placeContainer.prepend(createCard(name, link));
+function renderCard(element) {
+    placeContainer.prepend(createCard(element));
 }
 
 function placeAddSubmitHandler(event) {
     event.preventDefault();
-    renderCard(placeNameInput.value, placeLinkInput.value);
+    renderCard({
+        name: placeNameInput.value,
+        link: placeLinkInput.value
+    });
     closePopup(placeAddPopup);
     placeForm.reset();
 }
@@ -127,4 +122,4 @@ placeEditButton.addEventListener('click', function() {
 
 buttonCloseList.forEach(button => button.addEventListener('click', (event) => closePopup(event.target.closest('.popup'))));
 
-initialCards.reverse().forEach((element) => renderCard(element.name, element.link));
+initialCards.reverse().forEach(renderCard);
