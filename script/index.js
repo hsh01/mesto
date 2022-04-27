@@ -1,7 +1,7 @@
 const initialCards = [{
-        name: 'Архыз',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+},
     {
         name: 'Челябинская область',
         link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
@@ -70,16 +70,14 @@ const closePopup = (popupElement) => {
 };
 
 const openEditProfileForm = () => {
-    if (!nameInput.value) nameInput.value = nameElement.textContent;
-    if (!jobInput.value) jobInput.value = jobElement.textContent;
-    setCustomPlaceholders(profileForm);
-    setToggleButtonState(profileForm);
+    nameInput.value = nameElement.textContent;
+    jobInput.value = jobElement.textContent;
+    updateFormInputStates(profileForm, selectors.inputSelector, selectors.freezePlaceholderClass, selectors.inactiveButtonClass, selectors.inputErrorClass, selectors.errorClass);
     openPopup(profileEditPopup);
 };
 
 const openAddPlaceForm = () => {
-    setCustomPlaceholders(placeForm);
-    setToggleButtonState(placeForm);
+    updateFormInputStates(placeForm, selectors.inputSelector, selectors.freezePlaceholderClass, selectors.inactiveButtonClass, selectors.inputErrorClass, selectors.errorClass);
     openPopup(placeAddPopup);
 };
 
@@ -120,7 +118,7 @@ const renderCard = (element) => {
 
 const setCloseButtonHandler = (button) => {
     const popupElement = button.closest('.popup');
-    button.addEventListener('click', (event) => closePopup(popupElement));
+    button.addEventListener('click', () => closePopup(popupElement));
     popupElement.addEventListener('mousedown', (event) => {
         if (event.target.classList.contains('popup'))
             closePopup(popupElement);
