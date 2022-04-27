@@ -36,90 +36,103 @@ const fullscreenCaptionElement = imageFullscreenPopup.querySelector('.popup__img
 const nameElement = document.querySelector('.profile__title');
 const jobElement = document.querySelector('.profile__subtitle');
 
-const profileForm = document.querySelector('#popup__edit-profile .popup__form');
-const placeForm = document.querySelector('#popup__add-place .popup__form');
+const profileForm = document.forms['edit_profile'];
+const placeForm = document.forms['add_place'];
 
-const nameInput = document.querySelector('.popup__form-input[name=name]');
-const jobInput = document.querySelector('.popup__form-input[name=job]');
+const nameInput = profileForm.elements['profile-name'];
+const jobInput = profileForm.elements['profile-job'];
 
-const placeNameInput = document.querySelector('.popup__form-input_add_place-name[name=place-name]');
-const placeLinkInput = document.querySelector('.popup__form-input_add_place-link[name=place-link]');
-
+const placeNameInput = placeForm.elements['place-name'];
+const placeLinkInput = placeForm.elements['place-link'];
 
 const buttonCloseList = document.querySelectorAll('.popup__close');
 
 const placeContainer = document.querySelector('.places');
 const placeTemplate = document.querySelector('.place-template').content;
 
-function openPopup(popupElement) {
+const escapeClosePopup = (evt) => {
+    if (evt.key === 'Escape') {
+        const openedPopup = document.querySelector('.popup_opened');
+        if (openedPopup) {
+            closePopup(openedPopup);
+            document.removeEventListener('keydown', escapeClosePopup);
+        }
+    }
+}
+
+const openPopup = (popupElement) => {
     popupElement.classList.add('popup_opened');
-}
+    document.addEventListener('keydown', escapeClosePopup);
+};
 
-function closePopup(popupElement) {
+const closePopup = (popupElement) => {
     popupElement.classList.remove('popup_opened');
-}
+};
 
-function formEdit() {
-    nameInput.value = nameElement.textContent;
-    jobInput.value = jobElement.textContent;
+const openEditProfileForm = () => {
+    if (!nameInput.value) nameInput.value = nameElement.textContent;
+    if (!jobInput.value) jobInput.value = jobElement.textContent;
+    setCustomPlaceholders(profileForm);
+    setToggleButtonState(profileForm);
     openPopup(profileEditPopup);
-}
+};
 
-function profileEditSubmitHandler(event) {
-    event.preventDefault();
-    nameElement.textContent = nameInput.value;
-    jobElement.textContent = jobInput.value;
-    closePopup(profileEditPopup);
-    profileForm.reset();
-}
+const openAddPlaceForm = () => {
+    setCustomPlaceholders(placeForm);
+    setToggleButtonState(placeForm);
+    openPopup(placeAddPopup);
+};
 
-function handleCardImageClick(element) {
+const handleCardImageClick = (element) => {
     fullscreenImageElement.src = element.link;
     fullscreenImageElement.alt = element.name;
     fullscreenCaptionElement.textContent = element.name;
     openPopup(imageFullscreenPopup);
-}
+};
 
-function handleCardLikeClick(element) {
+const handleCardLikeClick = (element) => {
     element.classList.toggle('place__like_active');
-}
+};
 
-function createCard(element) {
+const handleCardRemoveClick = (element) => {
+    element.closest('.place').remove();
+};
+
+const createCard = (element) => {
     const placeElement = placeTemplate.cloneNode(true);
     const cardImage = placeElement.querySelector('.place__image');
-    const cardLike = placeElement.querySelector('.place__like');
+
     placeElement.querySelector('.place__title').textContent = element.name;
     cardImage.src = element.link;
     cardImage.alt = element.name;
-    const btnRemove = placeElement.querySelector('.place__remove');
-    btnRemove.addEventListener('click', (event) => event.target.closest('.place').remove());
-    cardImage.addEventListener('click', () => handleCardImageClick(element));
-    cardLike.addEventListener('click', () => handleCardLikeClick(element));
-    return placeElement;
-}
 
-function renderCard(element) {
-    placeContainer.prepend(createCard(element));
-}
-
-function placeAddSubmitHandler(event) {
-    event.preventDefault();
-    renderCard({
-        name: placeNameInput.value,
-        link: placeLinkInput.value
+    placeElement.firstElementChild.addEventListener('click', (evt) => {
+        if (evt.target.classList.contains('place__image')) handleCardImageClick(element);
+        if (evt.target.classList.contains('place__like')) handleCardLikeClick(evt.target);
+        if (evt.target.classList.contains('place__remove')) handleCardRemoveClick(evt.target);
     });
-    closePopup(placeAddPopup);
-    placeForm.reset();
-}
+    return placeElement;
+};
 
-profileForm.addEventListener('submit', profileEditSubmitHandler);
-placeForm.addEventListener('submit', placeAddSubmitHandler);
-profileEditButton.addEventListener('click', formEdit);
+const renderCard = (element) => {
+    placeContainer.prepend(createCard(element));
+};
 
-placeEditButton.addEventListener('click', function() {
-    openPopup(placeAddPopup);
-});
+const setCloseButtonHandler = (button) => {
+    const popupElement = button.closest('.popup');
+    button.addEventListener('click', (event) => closePopup(popupElement));
+    popupElement.addEventListener('mousedown', (event) => {
+        if (event.target.classList.contains('popup'))
+            closePopup(popupElement);
+    });
+};
 
-buttonCloseList.forEach(button => button.addEventListener('click', (event) => closePopup(event.target.closest('.popup'))));
+const initPopup = () => {
+    buttonCloseList.forEach(setCloseButtonHandler);
+    profileEditButton.addEventListener('click', openEditProfileForm);
+    placeEditButton.addEventListener('click', openAddPlaceForm);
+};
+
+initPopup();
 
 initialCards.reverse().forEach(renderCard);
