@@ -1,29 +1,3 @@
-const initialCards = [{
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-},
-    {
-        name: 'Челябинская область',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-        name: 'Иваново',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-        name: 'Камчатка',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-        name: 'Холмогорский район',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-        name: 'Байкал',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
-
 const profileEditButton = document.querySelector('.profile__edit-button');
 const placeEditButton = document.querySelector('.profile__add-button');
 
@@ -55,7 +29,6 @@ const escapeClosePopup = (evt) => {
         const openedPopup = document.querySelector('.popup_opened');
         if (openedPopup) {
             closePopup(openedPopup);
-            document.removeEventListener('keydown', escapeClosePopup);
         }
     }
 }
@@ -67,17 +40,14 @@ const openPopup = (popupElement) => {
 
 const closePopup = (popupElement) => {
     popupElement.classList.remove('popup_opened');
+    document.removeEventListener('keydown', escapeClosePopup);
 };
 
 const openEditProfileForm = () => {
-    nameInput.value = nameElement.textContent;
-    jobInput.value = jobElement.textContent;
-    updateFormInputStates(profileForm, selectors.inputSelector, selectors.freezePlaceholderClass, selectors.inactiveButtonClass, selectors.inputErrorClass, selectors.errorClass);
     openPopup(profileEditPopup);
 };
 
 const openAddPlaceForm = () => {
-    updateFormInputStates(placeForm, selectors.inputSelector, selectors.freezePlaceholderClass, selectors.inactiveButtonClass, selectors.inputErrorClass, selectors.errorClass);
     openPopup(placeAddPopup);
 };
 
@@ -112,6 +82,23 @@ const createCard = (element) => {
     return placeElement;
 };
 
+const profileEditSubmitHandler = (event) => {
+    event.preventDefault();
+    nameElement.textContent = nameInput.value;
+    jobElement.textContent = jobInput.value;
+    closePopup(profileEditPopup);
+};
+
+const placeAddSubmitHandler = (event) => {
+    event.preventDefault();
+    renderCard({
+        name: placeNameInput.value,
+        link: placeLinkInput.value
+    });
+    closePopup(placeAddPopup);
+    placeForm.reset();
+};
+
 const renderCard = (element) => {
     placeContainer.prepend(createCard(element));
 };
@@ -125,12 +112,16 @@ const setCloseButtonHandler = (button) => {
     });
 };
 
-const initPopup = () => {
+const init = () => {
     buttonCloseList.forEach(setCloseButtonHandler);
     profileEditButton.addEventListener('click', openEditProfileForm);
     placeEditButton.addEventListener('click', openAddPlaceForm);
+    profileForm.addEventListener('submit', profileEditSubmitHandler);
+    placeForm.addEventListener('submit', placeAddSubmitHandler);
+    initialCards.reverse().forEach(renderCard);
+    nameInput.value = nameElement.textContent;
+    jobInput.value = jobElement.textContent;
+    togglePlaceholderState(profileForm, selectors.inputSelector, selectors.freezePlaceholderClass);
 };
 
-initPopup();
-
-initialCards.reverse().forEach(renderCard);
+init();

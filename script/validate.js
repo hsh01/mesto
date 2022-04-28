@@ -20,34 +20,6 @@ const checkInputValidity = (formElement, inputElement, inputErrorClass, errorCla
     }
 };
 
-const setEventListeners = (formElement, inactiveButtonClass, inputErrorClass, errorClass) => {
-    const inputList = Array.from(formElement.querySelectorAll('.form__input'));
-    const buttonElement = formElement.querySelector('.form__submit');
-
-    inputList.forEach((inputElement) => {
-        inputElement.addEventListener('input', function () {
-            checkInputValidity(formElement, inputElement, inputErrorClass, errorClass);
-            toggleButtonState(inputList, buttonElement, inactiveButtonClass);
-        });
-    });
-
-    formElement.addEventListener('submit', function (evt) {
-        evt.preventDefault();
-        if (formElement.name === profileForm.name) {
-            nameElement.textContent = nameInput.value;
-            jobElement.textContent = jobInput.value;
-        }
-        if (formElement.name === placeForm.name) {
-            renderCard({
-                name: placeNameInput.value,
-                link: placeLinkInput.value
-            });
-        }
-        closePopup(formElement.closest('.popup'));
-        formElement.reset();
-    });
-};
-
 const hasInvalidInput = (inputList) => {
     return inputList.some((inputElement) => {
         return !inputElement.validity.valid;
@@ -62,11 +34,6 @@ const toggleButtonState = (inputList, buttonElement, inactiveButtonClass) => {
     }
 }
 
-const isEmpty = (formElement, inputElement, freezePlaceholderClass) => {
-    !inputElement.value.length >= 1 ? unfreezePlaceholder(formElement, inputElement, freezePlaceholderClass) :
-        freezePlaceholder(formElement, inputElement, freezePlaceholderClass);
-};
-
 const freezePlaceholder = (formElement, inputElement, freezePlaceholderClass) => {
     const placeholderElement = formElement.querySelector(`.${inputElement.name}-input-placeholder`);
     placeholderElement.classList.add(freezePlaceholderClass);
@@ -77,31 +44,37 @@ const unfreezePlaceholder = (formElement, inputElement, freezePlaceholderClass) 
     placeholderElement.classList.remove(freezePlaceholderClass);
 };
 
-const setCustomPlaceholders = (formElement, inputSelector, freezePlaceholderClass) => {
-    const getInputList = Array.from(formElement.querySelectorAll(inputSelector));
-    getInputList.forEach((inputElement) => {
+const isEmpty = (formElement, inputElement, freezePlaceholderClass) => {
+    !inputElement.value.length >= 1 ? unfreezePlaceholder(formElement, inputElement, freezePlaceholderClass) :
+        freezePlaceholder(formElement, inputElement, freezePlaceholderClass);
+};
+
+const setEventListeners = (formElement, inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass, freezePlaceholderClass) => {
+    const inputList = Array.from(formElement.querySelectorAll(inputSelector));
+    const buttonElement = formElement.querySelector(submitButtonSelector);
+
+    inputList.forEach((inputElement) => {
         isEmpty(formElement, inputElement, freezePlaceholderClass);
-        inputElement.addEventListener('input', () => isEmpty(formElement, inputElement, freezePlaceholderClass));
+        inputElement.addEventListener('input', function () {
+            checkInputValidity(formElement, inputElement, inputErrorClass, errorClass);
+            isEmpty(formElement, inputElement, freezePlaceholderClass)
+            toggleButtonState(inputList, buttonElement, inactiveButtonClass);
+        });
     });
 };
 
-const updateFormInputStates = (formElement, inputSelector, freezePlaceholderClass, inactiveButtonClass, inputErrorClass, errorClass) => {
+const togglePlaceholderState = (formElement, inputSelector, freezePlaceholderClass) => {
     const inputList = Array.from(formElement.querySelectorAll(inputSelector));
-    const buttonElement = formElement.querySelector('.form__submit');
-    toggleButtonState(inputList, buttonElement, inactiveButtonClass);
     inputList.forEach((inputElement) => {
-        if (inputElement.value)
-            checkInputValidity(formElement, inputElement, inputErrorClass, errorClass);
         isEmpty(formElement, inputElement, freezePlaceholderClass);
-        inputElement.addEventListener('input', () => isEmpty(formElement, inputElement, freezePlaceholderClass));
     });
-};
+}
 
 const enableValidation = (selectors) => {
     const formList = Array.from(document.querySelectorAll(selectors.formSelector));
     formList.forEach((formElement) => {
-        setCustomPlaceholders(formElement, selectors.inputSelector, selectors.freezePlaceholderClass);
-        setEventListeners(formElement, selectors.inactiveButtonClass, selectors.inputErrorClass, selectors.errorClass);
+        setEventListeners(formElement, selectors.inputSelector, selectors.submitButtonSelector,
+            selectors.inactiveButtonClass, selectors.inputErrorClass, selectors.errorClass, selectors.freezePlaceholderClass);
     });
 };
 

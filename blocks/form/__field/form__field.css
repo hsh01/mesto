@@ -2,5 +2,5 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  margin-top: 38px;
+  margin: 38px 0 4px;
 }
