@@ -10,8 +10,7 @@
 
 @media screen and (max-width: 440px) {
     .form__header {
-        margin-bottom: 40px;
-        padding-top: 25px;
+        margin-bottom: 28px;
         font-size: 18px;
         line-height: 1.22;
     }
