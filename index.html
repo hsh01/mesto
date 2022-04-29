@@ -32,16 +32,20 @@
             <button class="popup__close" type="button" title="закрыть" aria-label="закрыть"></button>
             <form class="form" name="edit_profile" novalidate>
                 <h2 class="form__header">Редактировать профиль</h2>
-                <label class="form__field">
-                    <input class="form__input" name="profile-name" type="text" minlength="2" maxlength="40" required>
-                    <span class="form__placeholder profile-name-input-placeholder">Имя:</span>
-                    <span class="form__input-error profile-name-input-error"></span>
-                </label>
-                <label class="form__field">
-                    <input class="form__input" name="profile-job" type="text" minlength="2" maxlength="200" required>
-                    <span class="form__placeholder profile-job-input-placeholder">О себе:</span>
-                    <span class="form__input-error profile-job-input-error"></span>
-                </label>
+                <fieldset class="form__set">
+                    <label class="form__field">
+                        <input class="form__input" name="profile-name" type="text" minlength="2" maxlength="40"
+                               required>
+                        <span class="form__placeholder profile-name-input-placeholder">Имя:</span>
+                        <span class="form__input-error profile-name-input-error"></span>
+                    </label>
+                    <label class="form__field">
+                        <input class="form__input" name="profile-job" type="text" minlength="2" maxlength="200"
+                               required>
+                        <span class="form__placeholder profile-job-input-placeholder">О себе:</span>
+                        <span class="form__input-error profile-job-input-error"></span>
+                    </label>
+                </fieldset>
                 <button class="form__submit" type="submit">Сохранить</button>
             </form>
         </div>
@@ -51,16 +55,17 @@
             <button class="popup__close" type="button" title="закрыть" aria-label="закрыть"></button>
             <form class="form" name="add_place" novalidate>
                 <h2 class="form__header">Новое место</h2>
-                <label class="form__field">
-                    <input class="form__input" name="place-name" type="text" minlength="2" maxlength="30" required>
-                    <span class="form__placeholder place-name-input-placeholder">Название:</span>
-                    <span class="form__input-error place-name-input-error"></span>
-                </label>
-                <label class="form__field">
-                    <input class="form__input" name="place-link" type="url" required>
-                    <span class="form__placeholder place-link-input-placeholder">Ссылка на картинку:</span>
-                    <span class="form__input-error place-link-input-error"></span>
-                </label>
+                <fieldset class="form__set">
+                    <label class="form__field">
+                        <input class="form__input" name="place-name" type="text" minlength="2" maxlength="30" required>
+                        <span class="form__placeholder place-name-input-placeholder">Название:</span>
+                        <span class="form__input-error place-name-input-error"></span>
+                    </label>
+                    <label class="form__field">
+                        <input class="form__input" name="place-link" type="url" required>
+                        <span class="form__placeholder place-link-input-placeholder">Ссылка на картинку:</span>
+                        <span class="form__input-error place-link-input-error"></span>
+                    </label></fieldset>
                 <button class="form__submit" type="submit">Создать</button>
             </form>
         </div>
@@ -86,9 +91,10 @@
         </div>
     </article>
 </template>
-<script src="script/data.js"></script>
-<script src="script/validate.js"></script>
-<script src="script/index.js"></script>
+<script type="module" src="script/index.js"></script>
+<script type="module" src="script/data.js"></script>
+<script type="module" src="script/Card.js"></script>
+<script type="module" src="script/FormValidator.js"></script>
 </body>
 
 </html>
