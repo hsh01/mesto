@@ -20,9 +20,27 @@ const jobInput = profileForm.elements['profile-job'];
 const placeNameInput = placeForm.elements['place-name'];
 const placeLinkInput = placeForm.elements['place-link'];
 
+const formConfig = {
+    fieldSelector: '.form__field',
+    inputSelector: '.form__input',
+    placeholderSelector: '.form__placeholder',
+    inputErrorSelector: '.form__input-error',
+    submitButtonSelector: '.form__submit',
+    inactiveButtonClass: 'form__submit_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'form__input-error_active',
+    freezePlaceholderClass: 'form__placeholder_is-fixed'
+};
+
+const formValidators = {};
 const placeContainer = document.querySelector('.places');
 
-const escapeClosePopup = (evt) => {
+const imageFullscreenPopup = document.querySelector('.popup_fullscreen');
+const fullscreenImageElement = imageFullscreenPopup.querySelector('.popup__img');
+const fullscreenCaptionElement = imageFullscreenPopup.querySelector('.popup__img-caption');
+
+
+const handlePopupEscapePress = (evt) => {
     if (evt.key === 'Escape') {
         const openedPopup = document.querySelector('.popup_opened');
         if (openedPopup) {
@@ -33,81 +51,89 @@ const escapeClosePopup = (evt) => {
 
 const openPopup = (popupElement) => {
     popupElement.classList.add('popup_opened');
-    document.addEventListener('keydown', escapeClosePopup);
+    document.addEventListener('keydown', handlePopupEscapePress);
 };
 
 const closePopup = (popupElement) => {
     popupElement.classList.remove('popup_opened');
-    document.removeEventListener('keydown', escapeClosePopup);
+    document.removeEventListener('keydown', handlePopupEscapePress);
 };
 
 const openEditProfileForm = () => {
+    formValidators['edit_profile'].resetValidation();
     openPopup(profileEditPopup);
 };
 
 const openAddPlaceForm = () => {
+    formValidators['add_place'].resetValidation();
     openPopup(placeAddPopup);
 };
 
-const profileEditSubmitHandler = (event) => {
+const handleSubmitEditProfile = (event) => {
     event.preventDefault();
     nameElement.textContent = nameInput.value;
     jobElement.textContent = jobInput.value;
     closePopup(profileEditPopup);
 };
 
-const placeAddSubmitHandler = (event) => {
-    event.preventDefault();
-    const card = new Card({
-        name: placeNameInput.value,
-        link: placeLinkInput.value
-    }, '.place-template');
-    const cardElement = card.generateCard();
-    placeContainer.prepend(cardElement);
-    closePopup(placeAddPopup);
-    placeForm.reset();
+const handleCardClick = (name, link) => {
+    fullscreenImageElement.src = link;
+    fullscreenImageElement.alt = name;
+    fullscreenCaptionElement.textContent = name;
+    openPopup(imageFullscreenPopup);
 };
 
-const setCloseButtonHandler = (button) => {
-    const popupElement = button.closest('.popup');
-    button.addEventListener('click', () => closePopup(popupElement));
-    popupElement.addEventListener('mousedown', (event) => {
-        if (event.target.classList.contains('popup'))
-            closePopup(popupElement);
-    });
+const createCard = (item) => {
+    const card = new Card(item, '.place-template', handleCardClick);
+    return card.generateCard();
+};
+
+const handleSubmitAddPlace = (event) => {
+    event.preventDefault();
+    placeContainer.prepend(createCard({
+        name: placeNameInput.value,
+        link: placeLinkInput.value
+    }));
+    closePopup(placeAddPopup);
+    placeForm.reset();
 };
 
 const renderElements = () => {
     placeContainer.innerHTML = '';
     cards.forEach((item) => {
-        item.id = Date.now().toString(36) + Math.random().toString(36).substring(2);
-        const card = new Card(item, '.place-template');
-        const cardElement = card.generateCard();
-        placeContainer.append(cardElement);
+        placeContainer.append(createCard(item));
+    });
+};
+
+const enableValidation = (config) => {
+    const formList = Array.from(document.forms);
+    formList.forEach((formElement) => {
+        const validator = new FormValidator(formElement, config)
+        const formName = formElement.getAttribute('name')
+        formValidators[formName] = validator;
+        validator.enableValidation();
     });
 };
 
 
 (() => {
     renderElements();
-    setCloseButtonHandler(profileEditPopup.querySelector('.popup__close'));
-    setCloseButtonHandler(placeAddPopup.querySelector('.popup__close'));
+    const popups = document.querySelectorAll('.popup')
+
+    popups.forEach((popup) => {
+        popup.addEventListener('mousedown', (evt) => {
+            if (evt.target.classList.contains('popup_opened')
+                || evt.target.classList.contains('popup__close')) {
+                closePopup(popup);
+            }
+        })
+    });
+
     profileEditButton.addEventListener('click', openEditProfileForm);
     placeAddButton.addEventListener('click', openAddPlaceForm);
-    profileForm.addEventListener('submit', profileEditSubmitHandler);
-    placeForm.addEventListener('submit', placeAddSubmitHandler);
+    profileForm.addEventListener('submit', handleSubmitEditProfile);
+    placeForm.addEventListener('submit', handleSubmitAddPlace);
     nameInput.value = nameElement.textContent;
     jobInput.value = jobElement.textContent;
-    const selectors = {
-        inputSelector: '.form__input',
-        submitButtonSelector: '.form__submit',
-        inactiveButtonClass: 'form__submit_disabled',
-        inputErrorClass: 'popup__input_type_error',
-        errorClass: 'form__input-error_active',
-        freezePlaceholderClass: 'form__placeholder_is-fixed'
-    };
-    const profileFormValidation = new FormValidator(selectors, profileForm);
-    profileFormValidation.enableValidation();
-    const placeFormValidation = new FormValidator(selectors, placeForm);
-    placeFormValidation.enableValidation();
+    enableValidation(formConfig);
 })();
