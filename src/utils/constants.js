@@ -20,7 +20,7 @@ export const formConfig = {
     inputErrorSelector: '.form__input-error',
     submitButtonSelector: '.form__submit',
     inactiveButtonClass: 'form__submit_disabled',
-    inputErrorClass: 'popup__input_type_error',
+    inputErrorClass: 'form__input_type_error',
     errorClass: 'form__input-error_active',
     freezePlaceholderClass: 'form__placeholder_is-fixed'
 };

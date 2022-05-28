@@ -3,7 +3,7 @@
     color: red;
     opacity: 0;
     position: absolute;
-    top: calc(100% + 5px);
+    top: calc(100% + 2px);
     left: 0;
     transition: opacity 0.3s;
 }
