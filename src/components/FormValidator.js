@@ -63,7 +63,7 @@ export default class FormValidator {
     }
 
     _isEmpty(field) {
-        !field.input.value.length >= 1
+        !field.input.value.trim().length >= 1
             ? this._unfreezePlaceholder(field.placeholder)
             : this._freezePlaceholder(field.placeholder);
     }

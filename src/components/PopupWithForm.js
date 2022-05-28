@@ -5,8 +5,7 @@ class PopupWithForm extends Popup {
 
     constructor(formSelector, callbackSubmitForm) {
         super(formSelector);
-        this._form = this._element;
-        this._element = this._element.closest('.popup');
+        this._form = this._element.querySelector('.form');
         this._callbackSubmitForm = callbackSubmitForm;
     }
 

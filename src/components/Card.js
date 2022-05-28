@@ -1,13 +1,8 @@
 class Card {
 
-    /**
-     * @param {{name, link}} data
-     * @param {string} templateSelector
-     * @param {function} handleCardClick
-     */
-    constructor(data, templateSelector, handleCardClick) {
-        this._name = data.name;
-        this._link = data.link;
+    constructor({name, link}, templateSelector, handleCardClick) {
+        this._name = name;
+        this._link = link;
         this._templateSelector = templateSelector;
         this.isLiked = false;
         this._handleImageClick = handleCardClick;
