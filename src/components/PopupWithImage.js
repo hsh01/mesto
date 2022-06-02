@@ -7,7 +7,7 @@ class PopupWithImage extends Popup {
         this._imageCaptionElement = this._element.querySelector('.popup__img-caption');
     }
 
-    open(name, link) {
+    open({name, link}) {
         this._imageElement.src = link;
         this._imageElement.alt = name;
         this._imageCaptionElement.textContent = name;

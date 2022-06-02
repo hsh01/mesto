@@ -24,14 +24,14 @@ import '../pages/index.css';
         const card = new Card(
             item,
             '.place-template',
-            (name, link) => popupWithImage.open(name, link));
+            (item) => popupWithImage.open(item));
         const cardElement = card.generateCard();
         placeList.addItem(cardElement);
     }
 
     function setUserInfoInputs(inputData) {
-        userInfoInputSelectors.profile_name.value = inputData.profile_name;
-        userInfoInputSelectors.profile_job.value = inputData.profile_job;
+        userInfoInputSelectors.username.value = inputData.username;
+        userInfoInputSelectors.job.value = inputData.job;
     }
 
     const formValidators = {};
@@ -58,7 +58,7 @@ import '../pages/index.css';
 
     const addCardForm = new PopupWithForm(
         '#popup__add-place',
-        ({place_name: title, place_link: link}) => createCard({title, link}));
+        item => createCard(item));
 
     addCardForm.setEventListeners();
     placeAddButton.addEventListener('click',

@@ -4,8 +4,8 @@ export const userInfoSelectors = {
 }
 
 export const userInfoInputSelectors = {
-    profile_name: document.querySelector('input[name=profile_name]'),
-    profile_job: document.querySelector('input[name=profile_job]'),
+    username: document.querySelector('input[name=username]'),
+    job: document.querySelector('input[name=job]'),
 }
 
 

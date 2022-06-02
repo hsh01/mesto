@@ -2,8 +2,6 @@
 
 [Демо](https://hsh01.github.io/mesto/)
 
-[Ссылка на макет в Figma](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1)
-
 ## Использованные технологии
 * HTML
 * CSS
@@ -17,8 +15,16 @@
 * Safari 8+
 * Opera
 
+## Инструкция по установке:
+```
+git clone https://github.com/hsh01/mesto.git
+cd mesto
+npm i webpack --save-dev
+npm run build
+npm run dev
+```
+
 
 ## Благодарности
 
-* [Курс Веб-разработка от Яндекс](https://practicum.yandex.ru/web/)
-* [normalize.css](https://github.com/necolas/normalize.css/)
+[Курс Веб-разработка от Яндекс](https://practicum.yandex.ru/web/)
