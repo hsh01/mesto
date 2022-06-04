@@ -4,6 +4,14 @@ export const userInfoSelectors = {
     avatarSelector: '.profile__avatar',
 };
 
+export const POPUP = {
+    profileEdit: '#popup__edit-profile',
+    avatarEdit: '#popup__edit-avatar',
+    addPlace: '#popup__add-place',
+    removePlace: '#popup__remove-place',
+    fullscreen: '.popup_fullscreen',
+};
+
 export const userInfoInputSelectors = {
     name: document.querySelector('input[name=name]'),
     about: document.querySelector('input[name=about]'),

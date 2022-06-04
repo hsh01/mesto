@@ -4,7 +4,7 @@ import {
     avatarSubmitButton,
     formConfig,
     options,
-    placeAddButton, placeSubmitButton,
+    placeAddButton, placeSubmitButton, POPUP,
     profileEditButton,
     profileSubmitButton, removeCardInputSelector,
     userInfoInputSelectors,
@@ -14,15 +14,6 @@ import '../pages/index.css';
 import {CardApi, UserApi} from "../utils/services";
 
 (() => {
-    function enableValidation(config) {
-        const formList = Array.from(document.forms);
-        formList.forEach((formElement) => {
-            const validator = new FormValidator(formElement, config);
-            const formName = formElement.getAttribute('name');
-            formValidators[formName] = validator;
-            validator.enableValidation();
-        });
-    }
 
     function createCard(item) {
         const card = new Card(
@@ -66,57 +57,21 @@ import {CardApi, UserApi} from "../utils/services";
         }
     }
 
-    const formValidators = {};
-
     const userInfo = new UserInfo(userInfoSelectors);
     const userApi = new UserApi(options);
     userApi.getUserInfo((data) => {
         userInfo.setUserInfo(data)
     });
 
-    const popupWithImage = new PopupWithImage('.popup_fullscreen');
-    popupWithImage.setEventListeners();
-
-    const popupRemoveConfirm = new PopupWithForm(
-        '#popup__remove-place',
-        ({_id}) => {
-            cardApi.deleteCard(_id,
-                () => {
-                    document.getElementById(_id).remove();
-                },
-                (loading) => popupLoaderCallback(
-                    loading,
-                    popupRemoveConfirm.getSubmitButton(),
-                    popupRemoveConfirm,
-                    'Удаление',
-                    'Да',
-                ));
-        });
-    popupRemoveConfirm.setEventListeners();
-
-
-    const cardApi = new CardApi(options);
-    cardApi.getCards((data) => {
-        data.reverse().forEach((card) => {
-            createCard(card)
-        });
-    });
-
-    const placeList = new Section({
-            items: [],
-            renderer: createCard
-        },
-        '.places');
-
     const profileEditForm = new PopupWithForm(
-        '#popup__edit-profile',
+        POPUP.profileEdit,
         (inputsData) => {
             userApi.patchUserInfo(
                 inputsData,
                 (data) => {
                     userInfo.setUserInfo(data);
                 },
-                (loading) => popupLoaderCallback(loading, profileSubmitButton, profileEditForm))
+                (loading) => popupLoaderCallback(loading, profileSubmitButton, profileEditForm));
         });
 
     profileEditForm.setEventListeners();
@@ -127,7 +82,7 @@ import {CardApi, UserApi} from "../utils/services";
     });
 
     const avatarEditForm = new PopupWithForm(
-        '#popup__edit-avatar',
+        POPUP.avatarEdit,
         (inputsData) => {
             userApi.patchUserAvatar(
                 inputsData,
@@ -144,8 +99,43 @@ import {CardApi, UserApi} from "../utils/services";
     });
 
 
+
+
+    const cardApi = new CardApi(options);
+    cardApi.getCards((data) => {
+        data.reverse().forEach((card) => {
+            createCard(card)
+        });
+    });
+
+    const popupWithImage = new PopupWithImage(POPUP.fullscreen);
+    popupWithImage.setEventListeners();
+
+    const popupRemoveConfirm = new PopupWithForm(
+        POPUP.removePlace,
+        ({_id}) => {
+            cardApi.deleteCard(_id,
+                () => {
+                    document.getElementById(_id).remove();
+                },
+                (loading) => popupLoaderCallback(
+                    loading,
+                    popupRemoveConfirm.getSubmitButton(),
+                    popupRemoveConfirm,
+                    'Удаление',
+                    'Да',
+                ));
+        });
+    popupRemoveConfirm.setEventListeners();
+
+    const placeList = new Section({
+            items: [],
+            renderer: createCard
+        },
+        '.places');
+
     const addCardForm = new PopupWithForm(
-        '#popup__add-place',
+        POPUP.addPlace,
         (item) => {
             cardApi.postCard(
                 item,
@@ -165,5 +155,16 @@ import {CardApi, UserApi} from "../utils/services";
             addCardForm.open();
         });
 
+
+    const formValidators = {};
+    function enableValidation(config) {
+        const formList = Array.from(document.forms);
+        formList.forEach((formElement) => {
+            const validator = new FormValidator(formElement, config);
+            const formName = formElement.getAttribute('name');
+            formValidators[formName] = validator;
+            validator.enableValidation();
+        });
+    }
     enableValidation(formConfig);
 })();
