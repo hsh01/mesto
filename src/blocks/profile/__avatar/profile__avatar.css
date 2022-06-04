@@ -1,11 +1,10 @@
 .profile__avatar {
     width: 120px;
+    height: 120px;
     border-radius: 50%;
     grid-area: avatar;
-    margin: 0;
     object-fit: cover;
-    height: 120px;
-    margin-right: 30px;
+    margin: 0 30px 0 0;
 }
 
 @media screen and (max-width: 1024px) {

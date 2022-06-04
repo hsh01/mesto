@@ -1,13 +1,17 @@
 import {Card, FormValidator, PopupWithForm, PopupWithImage, Section, UserInfo} from "../components";
 import {
+    avatarEditButton,
+    avatarSubmitButton,
     formConfig,
-    initialPlaces,
-    placeAddButton,
+    options,
+    placeAddButton, placeSubmitButton,
     profileEditButton,
+    profileSubmitButton, removeCardInputSelector,
     userInfoInputSelectors,
     userInfoSelectors
 } from "../utils/constants.js";
 import '../pages/index.css';
+import {CardApi, UserApi} from "../utils/services";
 
 (() => {
     function enableValidation(config) {
@@ -23,32 +27,98 @@ import '../pages/index.css';
     function createCard(item) {
         const card = new Card(
             item,
+            userInfo.getUserId(),
             '.place-template',
-            (item) => popupWithImage.open(item));
+            (item) => {
+                popupWithImage.open(item)
+            },
+            () => {
+                if (card.getIsLiked()) {
+                    cardApi.deleteLike(card.getId(), ({likes}) => card.setLike(likes));
+                } else {
+                    cardApi.putLike(card.getId(), ({likes}) => card.setLike(likes));
+                }
+            },
+            () => {
+                removeCardInputSelector.value = card.getId();
+                popupRemoveConfirm.open();
+            });
         const cardElement = card.generateCard();
         placeList.addItem(cardElement);
     }
 
     function setUserInfoInputs(inputData) {
-        userInfoInputSelectors.username.value = inputData.username;
-        userInfoInputSelectors.job.value = inputData.job;
+        Object.keys(inputData).forEach((input) => {
+            if (input in userInfoInputSelectors) {
+                userInfoInputSelectors[input].value = inputData[input];
+            }
+        });
+    }
+
+    function popupLoaderCallback(loading, button, form, loadText = 'Сохранение', loadedText = 'Сохранить') {
+        if (loading) {
+            button.classList.add('form__submit_loading');
+            button.textContent = loadText;
+        } else {
+            button.classList.remove('form__submit_loading');
+            button.textContent = loadedText;
+            form.close();
+        }
     }
 
     const formValidators = {};
+
+    const userInfo = new UserInfo(userInfoSelectors);
+    const userApi = new UserApi(options);
+    userApi.getUserInfo((data) => {
+        userInfo.setUserInfo(data)
+    });
+
     const popupWithImage = new PopupWithImage('.popup_fullscreen');
     popupWithImage.setEventListeners();
 
+    const popupRemoveConfirm = new PopupWithForm(
+        '#popup__remove-place',
+        ({_id}) => {
+            cardApi.deleteCard(_id,
+                () => {
+                    document.getElementById(_id).remove();
+                },
+                (loading) => popupLoaderCallback(
+                    loading,
+                    popupRemoveConfirm.getSubmitButton(),
+                    popupRemoveConfirm,
+                    'Удаление',
+                    'Да',
+                ));
+        });
+    popupRemoveConfirm.setEventListeners();
+
+
+    const cardApi = new CardApi(options);
+    cardApi.getCards((data) => {
+        data.reverse().forEach((card) => {
+            createCard(card)
+        });
+    });
+
     const placeList = new Section({
-            items: initialPlaces.reverse(),
+            items: [],
             renderer: createCard
         },
         '.places');
-    placeList.renderItems();
 
-    const userInfo = new UserInfo(userInfoSelectors);
     const profileEditForm = new PopupWithForm(
         '#popup__edit-profile',
-        (inputsData) => userInfo.setUserInfo(inputsData));
+        (inputsData) => {
+            userApi.patchUserInfo(
+                inputsData,
+                (data) => {
+                    userInfo.setUserInfo(data);
+                },
+                (loading) => popupLoaderCallback(loading, profileSubmitButton, profileEditForm))
+        });
+
     profileEditForm.setEventListeners();
     profileEditButton.addEventListener('click', () => {
         setUserInfoInputs(userInfo.getUserInfo());
@@ -56,9 +126,37 @@ import '../pages/index.css';
         profileEditForm.open();
     });
 
+    const avatarEditForm = new PopupWithForm(
+        '#popup__edit-avatar',
+        (inputsData) => {
+            userApi.patchUserAvatar(
+                inputsData,
+                (data) => {
+                    userInfo.setUserInfo(data);
+                },
+                (loading) => popupLoaderCallback(loading, avatarSubmitButton, avatarEditForm));
+        });
+    avatarEditForm.setEventListeners();
+    avatarEditButton.addEventListener('click', () => {
+        setUserInfoInputs(userInfo.getUserInfo());
+        formValidators['edit_avatar'].resetValidation();
+        avatarEditForm.open();
+    });
+
+
     const addCardForm = new PopupWithForm(
         '#popup__add-place',
-        item => createCard(item));
+        (item) => {
+            cardApi.postCard(
+                item,
+                (data) => {
+                    createCard(data);
+                    addCardForm.close();
+                },
+                (loading) => {
+                    popupLoaderCallback(loading, placeSubmitButton, addCardForm)
+                });
+        });
 
     addCardForm.setEventListeners();
     placeAddButton.addEventListener('click',

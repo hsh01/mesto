@@ -8,12 +8,12 @@ class Api {
 
     _request(path,
              init = undefined,
+             responseCallback = (data) => console.log(data),
              loadingCallback = undefined) {
         if (loadingCallback) {
             loadingCallback(true);
         }
         init.headers = {...init.headers, ...this._headers};
-        const result = null;
         return fetch(`${this._baseUrl}/${path}`, init)
             .then((res) => {
                 if (res.ok) {
@@ -21,6 +21,7 @@ class Api {
                 }
                 return Promise.reject(res.status);
             })
+            .then(data => responseCallback(data))
             .catch(err => this._errorCallback(err))
             .finally(() => {
                 if (loadingCallback) loadingCallback(false);
@@ -33,25 +34,25 @@ class UserApi extends Api {
         super(options, errorCallback);
     }
 
-    getUserInfo(loadingCallback = undefined) {
+    getUserInfo(responseCallback = undefined, loadingCallback = undefined) {
         const path = 'users/me';
-        return this._request(path, {}, loadingCallback);
+        return this._request(path, {}, responseCallback, loadingCallback);
     }
 
-    patchUserInfo(data, loadingCallback = undefined) {
+    patchUserInfo(data, responseCallback = undefined, loadingCallback = undefined) {
         const path = 'users/me';
         return this._request(path, {
             method: 'PATCH',
             body: JSON.stringify(data)
-        }, loadingCallback);
+        }, responseCallback, loadingCallback);
     }
 
-    patchUserAvatar(data, loadingCallback = undefined) {
+    patchUserAvatar(data, responseCallback = undefined, loadingCallback = undefined) {
         const path = `users/me/avatar`;
         return this._request(path, {
             method: 'PATCH',
             body: JSON.stringify(data)
-        }, loadingCallback);
+        }, responseCallback, loadingCallback);
     }
 }
 
@@ -60,38 +61,38 @@ class CardApi extends Api {
         super(options, errorCallback);
     }
 
-    getCards(loadingCallback = undefined) {
+    getCards(responseCallback = undefined, loadingCallback = undefined) {
         const path = 'cards';
-        return this._request(path, {}, loadingCallback);
+        return this._request(path, {}, responseCallback, loadingCallback);
     }
 
-    postCard(data, loadingCallback = undefined) {
+    postCard(data, responseCallback = undefined, loadingCallback = undefined) {
         const path = 'cards';
         return this._request(path, {
             method: 'POST',
             body: JSON.stringify(data)
-        }, loadingCallback);
+        }, responseCallback, loadingCallback);
     }
 
-    deleteCard(cardId, loadingCallback = undefined) {
+    deleteCard(cardId, responseCallback = undefined, loadingCallback = undefined) {
         const path = `cards/${cardId}`;
         return this._request(path, {
             method: 'DELETE',
-        }, loadingCallback);
+        }, responseCallback, loadingCallback);
     }
 
-    putLike(cardId, loadingCallback = undefined) {
+    putLike(cardId, responseCallback = undefined, loadingCallback = undefined) {
         const path = `cards/${cardId}/likes`;
         return this._request(path, {
             method: 'PUT',
-        }, loadingCallback);
+        }, responseCallback, loadingCallback);
     }
 
-    deleteLike(cardId, loadingCallback = undefined) {
+    deleteLike(cardId, responseCallback = undefined, loadingCallback = undefined) {
         const path = `cards/${cardId}/likes`;
         return this._request(path, {
             method: 'DELETE',
-        }, loadingCallback);
+        }, responseCallback, loadingCallback);
     }
 }
 
