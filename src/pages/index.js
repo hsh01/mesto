@@ -13,8 +13,8 @@ import '../pages/index.css';
     function enableValidation(config) {
         const formList = Array.from(document.forms);
         formList.forEach((formElement) => {
-            const validator = new FormValidator(formElement, config)
-            const formName = formElement.getAttribute('name')
+            const validator = new FormValidator(formElement, config);
+            const formName = formElement.getAttribute('name');
             formValidators[formName] = validator;
             validator.enableValidation();
         });
