@@ -36,9 +36,6 @@ export const removeCardInputSelector = document.forms['remove_place'].querySelec
 export const profileEditButton = document.querySelector('.profile__edit-button');
 export const avatarEditButton = document.querySelector('.profile__avatar-edit-button');
 export const placeAddButton = document.querySelector('.profile__add-button');
-export const profileSubmitButton = document.forms['edit_profile'].querySelector(formConfig.submitButtonSelector);
-export const avatarSubmitButton = document.forms['edit_avatar'].querySelector(formConfig.submitButtonSelector);
-export const placeSubmitButton = document.forms['add_place'].querySelector(formConfig.submitButtonSelector);
 
 export const options = {
     baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-42',

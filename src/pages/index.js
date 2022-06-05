@@ -1,12 +1,12 @@
 import {Card, FormValidator, PopupWithForm, PopupWithImage, Section, UserInfo} from "../components";
 import {
     avatarEditButton,
-    avatarSubmitButton,
     formConfig,
     options,
-    placeAddButton, placeSubmitButton, POPUP,
+    placeAddButton,
+    POPUP,
     profileEditButton,
-    profileSubmitButton, removeCardInputSelector,
+    removeCardInputSelector,
     userInfoInputSelectors,
     userInfoSelectors
 } from "../utils/constants.js";
@@ -46,22 +46,22 @@ import {CardApi, UserApi} from "../utils/services";
         });
     }
 
-    function popupLoaderCallback(loading, button, form, loadText = 'Сохранение', loadedText = 'Сохранить') {
+    function popupLoaderCallback(loading, button, form, initialText = 'Сохранить', loadText = 'Сохранение',
+                                 loadedText = 'Сохранено') {
         if (loading) {
             button.classList.add('form__submit_loading');
             button.textContent = loadText;
         } else {
             button.classList.remove('form__submit_loading');
             button.textContent = loadedText;
-            form.close();
+            button.classList.add('form__submit_loading-ok');
+            setTimeout(() => {
+                button.classList.remove('form__submit_loading-ok');
+                button.textContent = initialText;
+                form.close();
+            }, 2000);
         }
     }
-
-    const userInfo = new UserInfo(userInfoSelectors);
-    const userApi = new UserApi(options);
-    userApi.getUserInfo((data) => {
-        userInfo.setUserInfo(data)
-    });
 
     const profileEditForm = new PopupWithForm(
         POPUP.profileEdit,
@@ -71,7 +71,7 @@ import {CardApi, UserApi} from "../utils/services";
                 (data) => {
                     userInfo.setUserInfo(data);
                 },
-                (loading) => popupLoaderCallback(loading, profileSubmitButton, profileEditForm));
+                (loading) => popupLoaderCallback(loading, profileEditForm.getSubmitButton(), profileEditForm));
         });
 
     profileEditForm.setEventListeners();
@@ -89,23 +89,14 @@ import {CardApi, UserApi} from "../utils/services";
                 (data) => {
                     userInfo.setUserInfo(data);
                 },
-                (loading) => popupLoaderCallback(loading, avatarSubmitButton, avatarEditForm));
+                (loading) => popupLoaderCallback(loading,
+                    avatarEditForm.getSubmitButton(), avatarEditForm));
         });
     avatarEditForm.setEventListeners();
     avatarEditButton.addEventListener('click', () => {
         setUserInfoInputs(userInfo.getUserInfo());
         formValidators['edit_avatar'].resetValidation();
         avatarEditForm.open();
-    });
-
-
-
-
-    const cardApi = new CardApi(options);
-    cardApi.getCards((data) => {
-        data.reverse().forEach((card) => {
-            createCard(card)
-        });
     });
 
     const popupWithImage = new PopupWithImage(POPUP.fullscreen);
@@ -122,8 +113,9 @@ import {CardApi, UserApi} from "../utils/services";
                     loading,
                     popupRemoveConfirm.getSubmitButton(),
                     popupRemoveConfirm,
-                    'Удаление',
                     'Да',
+                    'Удаление',
+                    'Удалено',
                 ));
         });
     popupRemoveConfirm.setEventListeners();
@@ -141,11 +133,10 @@ import {CardApi, UserApi} from "../utils/services";
                 item,
                 (data) => {
                     createCard(data);
-                    addCardForm.close();
                 },
-                (loading) => {
-                    popupLoaderCallback(loading, placeSubmitButton, addCardForm)
-                });
+                (loading) => popupLoaderCallback(loading,
+                    addCardForm.getSubmitButton(), addCardForm,
+                    'Создать', 'Создание', 'Создано'));
         });
 
     addCardForm.setEventListeners();
@@ -157,6 +148,7 @@ import {CardApi, UserApi} from "../utils/services";
 
 
     const formValidators = {};
+
     function enableValidation(config) {
         const formList = Array.from(document.forms);
         formList.forEach((formElement) => {
@@ -166,5 +158,22 @@ import {CardApi, UserApi} from "../utils/services";
             validator.enableValidation();
         });
     }
+
     enableValidation(formConfig);
+
+    const userInfo = new UserInfo(userInfoSelectors);
+    const userApi = new UserApi(options);
+    const cardApi = new CardApi(options);
+
+    Promise.all([
+        userApi.getUserInfo((data) => {
+            userInfo.setUserInfo(data)
+        }),
+        cardApi.getCards((data) => {
+            data.reverse().forEach((card) => {
+                createCard(card)
+            });
+        })
+    ]).then(r => {});
+
 })();

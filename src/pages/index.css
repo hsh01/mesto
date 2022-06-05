@@ -45,3 +45,4 @@
 @import url(../blocks/form/__submit/form__submit.css);
 @import url(../blocks/form/__submit/_disabled/form__submit_disabled.css);
 @import url(../blocks/form/__submit/_loading/form__submit_loading.css);
+@import url(../blocks/form/__submit/_loading-ok/form__submit_loading-ok.css);

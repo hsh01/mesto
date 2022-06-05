@@ -1,5 +1,5 @@
 .form__submit_loading:after {
-    content: ' .';
+    content: '.';
     animation: dots 1s steps(5, end) infinite;
 }
 

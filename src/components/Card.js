@@ -1,3 +1,5 @@
+import notFoundImage from '../images/image.png';
+
 class Card {
 
     constructor({_id, name, link, owner, likes}, userId, templateSelector, handleCardClick,
@@ -40,13 +42,8 @@ class Card {
         }
     }
 
-
-    _handleTrashClick() {
-        this._handleRemoveClick();
-    }
-
     _getTemplate() {
-        const template = document
+        this._template = document
             .querySelector(this._templateSelector)
             .content
             .querySelector('.place')
@@ -54,23 +51,32 @@ class Card {
             if (this._isOwner) {
                 const templateButton = document.createElement('template');
                 templateButton.innerHTML = '<button class="place__remove" type="button" aria-label="удалить"></button>';
-                template.append(templateButton.content.cloneNode(true));
+                this._template.append(templateButton.content.cloneNode(true));
             }
-            template.id = this._id;
-        return template;
+            this._template.id = this._id;
+        return this._template;
     }
 
     _setEventListeners() {
         this._cardImage.addEventListener('click', () => this._handleImageClick({name: this._name, link: this._link}));
         this._likeElement.addEventListener('click', () => this._handleLikeClick());
         if (this._isOwner) {
-            this._trashElement.addEventListener('click', () => this._handleTrashClick());
+            this._trashElement.addEventListener('click', () => this._handleRemoveClick());
         }
     }
 
     generateCard() {
         this._cardImage.src = this._link;
         this._cardImage.alt = this._name;
+
+        this._cardImage.onerror = () => {
+            this._cardImage.onerror=null;
+            this._link = notFoundImage;
+            this._name += ' не найдено.';
+            this._cardImage.src = this._link;
+            this._cardImage.alt = this._name;
+        };
+
         this._titleElement.textContent = this._name;
         this._likeCounterElement.textContent = this._likeCount;
         this._setEventListeners();
