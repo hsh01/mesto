@@ -14,7 +14,6 @@ import '../pages/index.css';
 import {CardApi, UserApi} from "../utils/services";
 
 (() => {
-
     function createCard(item) {
         const card = new Card(
             item,
@@ -25,9 +24,11 @@ import {CardApi, UserApi} from "../utils/services";
             },
             () => {
                 if (card.getIsLiked()) {
-                    cardApi.deleteLike(card.getId(), ({likes}) => card.setLike(likes));
+                    cardApi.deleteLike(card.getId())
+                        .then(({likes}) => card.setLike(likes));
                 } else {
-                    cardApi.putLike(card.getId(), ({likes}) => card.setLike(likes));
+                    cardApi.putLike(card.getId())
+                        .then(({likes}) => card.setLike(likes));
                 }
             },
             () => {
@@ -46,41 +47,16 @@ import {CardApi, UserApi} from "../utils/services";
         });
     }
 
-    /**
-     * Loader callback. Runs onFinally.
-     * @param loading
-     * @param button
-     * @param form
-     * @param initialText
-     * @param loadText
-     * @param loadedText
-     */
-    function popupLoaderCallback(loading, button, form, initialText = 'Сохранить', loadText = 'Сохранение',
-                                 loadedText = 'Сохранено') {
-        if (loading) {
-            button.classList.add('form__submit_loading');
-            button.textContent = loadText;
-        } else {
-            button.classList.remove('form__submit_loading');
-            button.textContent = loadedText;
-            button.classList.add('form__submit_loading-ok');
-            setTimeout(() => {
-                button.classList.remove('form__submit_loading-ok');
-                button.textContent = initialText;
-                form.close();
-            }, 1000);
-        }
-    }
-
     const profileEditForm = new PopupWithForm(
         POPUP.profileEdit,
         (inputsData) => {
-            userApi.patchUserInfo(
-                inputsData,
-                (data) => {
+            userApi.patchUserInfo(inputsData)
+                .then((data) => {
                     userInfo.setUserInfo(data);
-                },
-                (loading) => popupLoaderCallback(loading, profileEditForm.getSubmitButton(), profileEditForm));
+                    profileEditForm.popupSuccessCallback();
+                })
+                .catch((err) => profileEditForm.popupErrorCallback(err))
+                .finally((loading) => profileEditForm.popupLoaderCallback(loading));
         });
 
     profileEditForm.setEventListeners();
@@ -93,13 +69,13 @@ import {CardApi, UserApi} from "../utils/services";
     const avatarEditForm = new PopupWithForm(
         POPUP.avatarEdit,
         (inputsData) => {
-            userApi.patchUserAvatar(
-                inputsData,
-                (data) => {
+            userApi.patchUserAvatar(inputsData)
+                .then((data) => {
                     userInfo.setUserInfo(data);
-                },
-                (loading) => popupLoaderCallback(loading,
-                    avatarEditForm.getSubmitButton(), avatarEditForm));
+                    avatarEditForm.popupSuccessCallback();
+                })
+                .catch((err) => avatarEditForm.popupErrorCallback(err))
+                .finally((loading) => avatarEditForm.popupLoaderCallback(loading));
         });
     avatarEditForm.setEventListeners();
     avatarEditButton.addEventListener('click', () => {
@@ -114,38 +90,28 @@ import {CardApi, UserApi} from "../utils/services";
     const popupRemoveConfirm = new PopupWithForm(
         POPUP.removePlace,
         ({_id}) => {
-            cardApi.deleteCard(_id,
-                () => {
+            cardApi.deleteCard(_id)
+                .then(() => {
                     document.getElementById(_id).remove();
-                },
-                (loading) => popupLoaderCallback(
-                    loading,
-                    popupRemoveConfirm.getSubmitButton(),
-                    popupRemoveConfirm,
-                    'Да',
-                    'Удаление',
-                    'Удалено',
-                ));
+                    popupRemoveConfirm.popupSuccessCallback('Да', 'Удалено');
+                })
+                .catch(err => popupRemoveConfirm.popupErrorCallback(err))
+                .finally((loading) => popupRemoveConfirm.popupLoaderCallback(loading, 'Удаление'));
         });
     popupRemoveConfirm.setEventListeners();
 
-    const placeList = new Section({
-            items: [],
-            renderer: createCard
-        },
-        '.places');
+    const placeList = new Section({items: [], renderer: createCard}, '.places');
 
     const addCardForm = new PopupWithForm(
         POPUP.addPlace,
         (item) => {
-            cardApi.postCard(
-                item,
-                (data) => {
+            cardApi.postCard(item)
+                .then((data) => {
                     createCard(data);
-                },
-                (loading) => popupLoaderCallback(loading,
-                    addCardForm.getSubmitButton(), addCardForm,
-                    'Создать', 'Создание', 'Создано'));
+                    addCardForm.popupSuccessCallback('Создать', 'Создание');
+                })
+                .catch(err => addCardForm.popupErrorCallback(err, 'Создать'))
+                .finally((loading) => addCardForm.popupLoaderCallback(loading, 'Создание'))
         });
 
     addCardForm.setEventListeners();
@@ -174,15 +140,17 @@ import {CardApi, UserApi} from "../utils/services";
     const userApi = new UserApi(options);
     const cardApi = new CardApi(options);
 
-    Promise.all([
-        userApi.getUserInfo((data) => {
+    userApi.getUserInfo()
+        .then((data) => {
             userInfo.setUserInfo(data)
-        }),
-        cardApi.getCards((data) => {
-            data.reverse().forEach((card) => {
-                createCard(card)
-            });
         })
-    ]).then(() => {});
+        .then(() => {
+            cardApi.getCards()
+                .then((data) => {
+                    data.reverse().forEach((card) => {
+                        createCard(card)
+                    });
+                })
+        });
 
 })();

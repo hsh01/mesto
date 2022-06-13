@@ -1,18 +1,11 @@
 class Api {
-    constructor({baseUrl, headers},
-                errorCallback = (err) => console.log(err)) {
+    constructor({baseUrl, headers}) {
         this._baseUrl = baseUrl;
         this._headers = headers;
-        this._errorCallback = errorCallback;
     }
 
     _request(path,
-             init = undefined,
-             responseCallback = (data) => console.log(data),
-             loadingCallback = undefined) {
-        if (loadingCallback) {
-            loadingCallback(true);
-        }
+             init = undefined) {
         init.headers = {...init.headers, ...this._headers};
         return fetch(`${this._baseUrl}/${path}`, init)
             .then((res) => {
@@ -20,11 +13,6 @@ class Api {
                     return res.json();
                 }
                 return Promise.reject(res.status);
-            })
-            .then(data => responseCallback(data))
-            .catch(err => this._errorCallback(err))
-            .finally(() => {
-                if (loadingCallback) loadingCallback(false);
             });
     }
 }
@@ -34,25 +22,25 @@ class UserApi extends Api {
         super(options, errorCallback);
     }
 
-    getUserInfo(responseCallback = undefined, loadingCallback = undefined) {
+    getUserInfo() {
         const path = 'users/me';
-        return this._request(path, {}, responseCallback, loadingCallback);
+        return this._request(path, {});
     }
 
-    patchUserInfo(data, responseCallback = undefined, loadingCallback = undefined) {
+    patchUserInfo(data) {
         const path = 'users/me';
         return this._request(path, {
             method: 'PATCH',
             body: JSON.stringify(data)
-        }, responseCallback, loadingCallback);
+        });
     }
 
-    patchUserAvatar(data, responseCallback = undefined, loadingCallback = undefined) {
+    patchUserAvatar(data = undefined) {
         const path = `users/me/avatar`;
         return this._request(path, {
             method: 'PATCH',
             body: JSON.stringify(data)
-        }, responseCallback, loadingCallback);
+        });
     }
 }
 
@@ -61,38 +49,38 @@ class CardApi extends Api {
         super(options, errorCallback);
     }
 
-    getCards(responseCallback = undefined, loadingCallback = undefined) {
+    getCards() {
         const path = 'cards';
-        return this._request(path, {}, responseCallback, loadingCallback);
+        return this._request(path, {});
     }
 
-    postCard(data, responseCallback = undefined, loadingCallback = undefined) {
+    postCard(data = undefined) {
         const path = 'cards';
         return this._request(path, {
             method: 'POST',
             body: JSON.stringify(data)
-        }, responseCallback, loadingCallback);
+        });
     }
 
-    deleteCard(cardId, responseCallback = undefined, loadingCallback = undefined) {
+    deleteCard(cardId = undefined) {
         const path = `cards/${cardId}`;
         return this._request(path, {
             method: 'DELETE',
-        }, responseCallback, loadingCallback);
+        });
     }
 
-    putLike(cardId, responseCallback = undefined, loadingCallback = undefined) {
+    putLike(cardId = undefined) {
         const path = `cards/${cardId}/likes`;
         return this._request(path, {
             method: 'PUT',
-        }, responseCallback, loadingCallback);
+        });
     }
 
-    deleteLike(cardId, responseCallback = undefined, loadingCallback = undefined) {
+    deleteLike(cardId = undefined) {
         const path = `cards/${cardId}/likes`;
         return this._request(path, {
             method: 'DELETE',
-        }, responseCallback, loadingCallback);
+        });
     }
 }
 
