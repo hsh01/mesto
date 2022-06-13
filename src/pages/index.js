@@ -46,6 +46,15 @@ import {CardApi, UserApi} from "../utils/services";
         });
     }
 
+    /**
+     * Loader callback. Runs onFinally.
+     * @param loading
+     * @param button
+     * @param form
+     * @param initialText
+     * @param loadText
+     * @param loadedText
+     */
     function popupLoaderCallback(loading, button, form, initialText = 'Сохранить', loadText = 'Сохранение',
                                  loadedText = 'Сохранено') {
         if (loading) {
@@ -59,7 +68,7 @@ import {CardApi, UserApi} from "../utils/services";
                 button.classList.remove('form__submit_loading-ok');
                 button.textContent = initialText;
                 form.close();
-            }, 2000);
+            }, 1000);
         }
     }
 
@@ -174,6 +183,6 @@ import {CardApi, UserApi} from "../utils/services";
                 createCard(card)
             });
         })
-    ]).then(r => {});
+    ]).then(() => {});
 
 })();

@@ -6,6 +6,7 @@ class PopupWithForm extends Popup {
     constructor(formSelector, callbackSubmitForm) {
         super(formSelector);
         this._form = this._element.querySelector('.form');
+        this._inputs = this._form.querySelectorAll('.form__input')
         this._callbackSubmitForm = callbackSubmitForm;
     }
 
@@ -20,7 +21,7 @@ class PopupWithForm extends Popup {
 
     _getInputValues() {
         const result = {};
-        Array.from(this._form.querySelectorAll('.form__input'))
+        Array.from(this._inputs)
             .forEach(({name, value}) => {
                 result[name] = value;
             });
